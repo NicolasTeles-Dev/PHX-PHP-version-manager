@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+# --- Version ---
+PHX_VERSION="0.1.0"
+
 # --- Visual helpers ---
 C_RESET="\033[0m"
 C_RED="\033[0;31m"
@@ -177,6 +180,10 @@ cmd_which() {
     msg "php → $(command -v php)"
 }
 
+cmd_version() {
+  echo "phx $PHX_VERSION"
+}
+
 cmd_help() {
   cat <<EOF
 phx - PHP Version Manager
@@ -188,6 +195,7 @@ Commands:
   local <versão>
   current
   which
+  version
 EOF
 }
 
@@ -204,6 +212,7 @@ main() {
   local) cmd_local "$@" ;;
   current) cmd_current ;;
   which) cmd_which ;;
+  version) cmd_version ;;
   __auto_switcher) phx_auto_switcher ;;
   help | -h | --help) cmd_help ;;
   *) err "Unknown command: $cmd" ;;

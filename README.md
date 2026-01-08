@@ -152,6 +152,12 @@ phx current
 phx which
 ```
 
+#### Show phx version
+
+```bash
+phx version
+```
+
 ### ⚙️ Optional configuration
 
 #### By default, phx searches for PHP versions in:
