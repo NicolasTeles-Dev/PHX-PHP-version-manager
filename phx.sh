@@ -14,6 +14,13 @@ C_RED="\033[0;31m"
 C_GREEN="\033[0;32m"
 C_BLUE="\033[0;34m"
 
+if [[ -n "${NO_COLOR:-}" || "${TERM:-}" == "dumb" ]]; then
+  C_RESET=""
+  C_RED=""
+  C_GREEN=""
+  C_BLUE=""
+fi
+
 msg() { echo -e "${C_BLUE}phx:${C_RESET} $1"; }
 err() {
   echo -e "${C_RED}phx: [ERROR]${C_RESET} $1" >&2
@@ -168,9 +175,18 @@ cmd_local() {
 }
 
 cmd_current() {
-  [[ "${PHX_ACTIVE_VERSION:-system}" == "system" ]] &&
+  local version
+  if version=$(phx_find_local_version 2>/dev/null); then
+    :
+  elif [[ -f "$GLOBAL_VERSION_FILE" ]]; then
+    version=$(cat "$GLOBAL_VERSION_FILE")
+  else
+    version="system"
+  fi
+
+  [[ "$version" == "system" ]] &&
     msg "Using system PHP" ||
-    msg "Active PHP: ${C_GREEN}$PHX_ACTIVE_VERSION${C_RESET}"
+    msg "Active PHP: ${C_GREEN}$version${C_RESET}"
   php -v
 }
 

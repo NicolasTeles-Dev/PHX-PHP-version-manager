@@ -4,6 +4,7 @@ load 'bats-support/load.bash'
 load 'bats-assert/load.bash'
 
 setup() {
+  export NO_COLOR=1
   # Get the path to the phx.sh script
   PHX_SCRIPT="$(pwd)/phx.sh"
 }
